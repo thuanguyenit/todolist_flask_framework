@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>To do list app</title>
+        <link href="../static/bootrap4/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+        <div class="jumbotron" style="margin-bottom:0">
+            <a class="navbar-brand" href="#">
+                <img src="https://bvu.edu.vn/BRVT-NH-theme/images/logo-xanh.png" alt="log" style="height: 100px;">
+            </a>
+        </div>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signin">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup">Sign up</a>
+                </li>
+            </ul>
+        </nav>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+        <div class="alert alert-danger">
+            <strong>Error: </strong>[{{ message }}]
+        </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+{% block content %} {% endblock %}
+
+
+        <div class="jumbotron text-center" style="margin-bottom:0">
+        <p>
+            Êiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+        </p>
+        </div>
+</body>
+</html>
