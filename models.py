@@ -24,11 +24,21 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 
+
+class Priority(db.Model):
+    priority_id = db.Column(db.Integer, Sequence('task_id_seq'), primary_key=True)
+    text = db.Column(db.String(255), nullable=False)
+
+    tasks = relationship('Task', back_populates='priority')
+
+
 class Task(db.Model):
     task_id = db.Column(db.Integer, Sequence('task_id_seq'), primary_key=True)
     description = db.Column(db.String(255), nullable=False)
+    status = db.Column(db.String(255), nullable=False)  # Accept value: "running" or "completed" or "trash"
     user_id = db.Column(db.Integer, ForeignKey('user.user_id'))
     priority_id = db.Column(db.Integer, ForeignKey('priority.priority_id'))
+
     user = relationship('User', back_populates='tasks')
 
     priority = relationship('Priority', back_populates='tasks')
@@ -50,11 +60,5 @@ class Task(db.Model):
                         return "table-hover table-primary"
 
 
-
-class Priority(db.Model):
-    priority_id = db.Column(db.Integer, Sequence('task_id_seq'), primary_key=True)
-    text = db.Column(db.String(255), nullable=False)
-
-    tasks = relationship('Task', back_populates='priority')
 
 

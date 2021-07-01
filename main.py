@@ -80,7 +80,6 @@ def signin():
     return render_template('signin.html', form=form)
 
 
-import numpy
 
 
 @app.route('/userhome', methods=['GET', 'POST'])
@@ -101,13 +100,19 @@ def userhome():
 
         if formx.validate_on_submit():
             for task in taskArray:
-                if "u"+str(task.task_id) in request.form:
+                if "update"+str(task.task_id) in request.form:
                     session['task'] = task.task_id
                     return render_template('userhome.html', form=form, user=user,editTaskForm=editTaskForm, taskid=task.task_id)
-                elif "d" + str(task.task_id) in request.form:
-                    db.session.delete(task)
+                elif "move_to_trash" + str(task.task_id) in request.form:
+                    task.status = "trash"
                     db.session.commit()
                     return redirect(url_for('userhome'))
+                elif "done" + str(task.task_id) in request.form:
+                    task.status="done"
+                    db.session.commit()
+
+
+
 
         if editTaskForm.submitEditTask.data and editTaskForm.validate():
             task = db.session.query(models.Task).filter_by(task_id=session.get('task')).first()
@@ -117,7 +122,7 @@ def userhome():
 
         if form.submit.data and form.validate():
             task = models.Task(description=form.inputTaskDescription.data, user_id=_userId,
-                               priority_id=form.inputPriority.data)
+                               priority_id=form.inputPriority.data, status="running")
             db.session.add(task)
             db.session.commit()
 
@@ -128,6 +133,25 @@ def userhome():
     else:
         redirect('/')
 
+@app.route('/completed', methods=['GET', 'POST'])
+def completed():
+    _userId = session.get('user')
+    if _userId:
+        user = db.session.query(models.User).filter_by(user_id=_userId).first()
+
+        return render_template('completed.html', user=user)
+    else:
+        return redirect(url_for('userhome'))
+
+@app.route('/trash', methods=['GET', 'POST'])
+def trash():
+    _userId = session.get('user')
+    if _userId:
+        user = db.session.query(models.User).filter_by(user_id=_userId).first()
+
+        return render_template('trash.html', user=user)
+    else:
+        return redirect(url_for('userhome'))
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port='8080', debug=True)

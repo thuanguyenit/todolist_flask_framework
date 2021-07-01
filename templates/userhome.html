@@ -35,18 +35,23 @@
                 <tbody>
                 {% if user.tasks %}
                 {% for task in user.tasks %}
+                {% if task.status == "running" %}
                 <tr class="{{ task.getColor() }}">
 
-                        <td class="">{{ task.description }}</td>
+                        <td class="" style="width: 70%">{{ task.description }}</td>
                         <td>
-                            <input type="submit" name="u{{ task.task_id }}" value="✏" class="btn btn-lg btn-success btn-block">
+                            <input type="submit" name="update{{ task.task_id }}" value="✏" class="btn btn-lg btn-success btn-block">
                         </td>
                         <td>
-                            <input type="submit" name="d{{ task.task_id }}" value="❌" class="btn btn-lg btn-success btn-block">
+                            <input type="submit" name="done{{ task.task_id }}" value="✔" class="btn btn-lg btn-success btn-block">
+                        </td>
+                        <td>
+                            <input type="submit" name="move_to_trash{{ task.task_id }}" value="❌" class="btn btn-lg btn-success btn-block">
                         </td>
 
 
                 </tr>
+                {% endif %}
                 {% if taskid %}
                     {% if task.task_id == taskid %}
 

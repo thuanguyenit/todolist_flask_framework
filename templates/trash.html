@@ -1,0 +1,33 @@
+{% extends "userbase.html" %}
+{% block content %}
+  <div class="container">
+    <div class="jumbotron text-center">
+      <h1>Your trash</h1>
+    </div>
+    <div class="jumptron">
+
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>Task</tr>
+                </thead>
+                <tbody>
+                {% if user.tasks %}
+                  {% for task in user.tasks %}
+                    {% if task.status == "trash" %}
+                <tr class="{{ task.getColor() }}">
+                  <td class="">{{ task.description }}</td>
+                </tr>
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                <div class="alert alert-warning text-center">
+                    <h4>You have not completed any tasks in your task list! </h4>
+                </div>
+                {% endif %}
+                </tbody>
+            </table>
+
+
+    </div>
+  </div>
+{% endblock %}
