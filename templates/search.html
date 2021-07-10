@@ -1,0 +1,80 @@
+{% extends "userbase.html" %}
+{% block content %}
+  <div class="container">
+    <div class="jumptron text-center">
+      <h1></h1>
+    </div>
+    <div class="jumptron">
+        
+
+        <form action="" method="post" class="form-signin" novalidate >
+            
+            <table class="table table-striped table-bordered table-hover">
+                {% if taskArr %}
+                
+                <thead>
+                <tr>Result: </tr>              
+                <tr>
+                    
+                    <td>Description</td>
+                    <td>Deadline</td>
+                    <td>Status</td>
+                    
+                </tr>
+                </thead>
+                <tbody>
+                    
+                {% for task in taskArr %}
+                <tr class="{{ task.getColor() }}">
+
+                        <td class="" style="width: 40%">{{ task.description }}</td>
+                        <td class="" style="width: 20%">{{ task.deadline }}</td>
+                        {% if task.status_id == 1 %} 
+                        <td class="" style="width: 10%"> running </td>
+                        {% endif %}
+                        {% if task.status_id == 3 %} 
+                        <td class="" style="width: 10%"> finished  </td>
+                        {% endif %}                      
+                </tr>              
+                
+                    
+                {% endfor %}
+                {% else %}
+                
+                <thead>
+                <tr>Result: </tr>              
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Deadline</td>
+                    <td>Status</td>
+                    
+                </tr>
+                </thead>
+                <tbody>
+                {% for project in projectArr %}    
+                
+                <tr>
+                        <td class="" style="width: 20%">{{ project.name}}</td>
+                        <td class="" style="width: 50%">{{ project.description }}</td>
+                        <td class="" style="width: 20%">{{ project.deadline }}</td>
+                        {% if project.status_id == 1 %} 
+                        <td class="" style="width: 10%"> running </td>
+                        {% endif %}
+                        {% if project.status_id == 3 %} 
+                        <td class="" style="width: 10%"> finished  </td>
+                        {% endif %}                      
+                </tr>             
+                
+                    
+                {% endfor %}
+
+
+                {% endif %}
+                </tbody>
+            </table>
+            </form>
+
+    </div>
+  </div>
+{% endblock %}

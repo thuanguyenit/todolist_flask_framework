@@ -24,9 +24,21 @@ class SignInForm(FlaskForm):
 
 class AddTaskForm(FlaskForm):
     inputTaskDescription = wtforms.StringField('Task description', [DataRequired(message='Please enter your task!')])
+    inputTaskDeadline = wtforms.DateField('Task deadline', [DataRequired(message='Format: y/m/d')], format='%Y-%m-%d')
     inputPriority = wtforms.SelectField('Priority level', coerce=int)
     submit = wtforms.SubmitField('Add Task')
 
+class AddProjectForm(FlaskForm):
+    inputProjectName = wtforms.StringField('Project name', [DataRequired(message='Please enter your project name!')])
+    inputProjectDescription = wtforms.StringField('Project description', [DataRequired(message='Please enter your project description!')])
+    inputProjectDeadline = wtforms.DateField('Project deadline', [DataRequired(message='Format: y-m-d')], format='%Y-%m-%d')
+    submit = wtforms.SubmitField('Add Project')
+
+class EditProjectForm(FlaskForm):
+    inputProjectName = wtforms.StringField('Project name', [DataRequired(message='Please enter your project name!')])
+    inputProjectDescription = wtforms.StringField('Project description', [DataRequired(message='Please enter your project description!')])
+    inputProjectDeadline = wtforms.DateField('Project deadline', [DataRequired(message='Format: y-m-d')], format='%Y-%m-%d')
+    submitEditProject = wtforms.SubmitField('done')
 
 class UD_Task_Form(FlaskForm):
     updateTask = wtforms.SubmitField("✏")
@@ -34,6 +46,12 @@ class UD_Task_Form(FlaskForm):
 
 class EditTaskForm(FlaskForm):
     inputTaskDescription = wtforms.StringField('Task description', [DataRequired(message='Please enter your task!')])
+    inputTaskDeadline = wtforms.DateField('Task deadline', [DataRequired(message='Format: y-m-d')], format='%Y-%m-%d')
     inputPriority = wtforms.SelectField('Priority level', coerce=int)
     submitEditTask = wtforms.SubmitField('✔')
 
+class SearchForm(FlaskForm):
+    inputSearchContent = wtforms.StringField('Search content', [DataRequired(message='Please enter your key-word')])
+    inputStatus=wtforms.SelectField('status',coerce=int)
+    submitSearch=wtforms.SubmitField('🔍')
+    

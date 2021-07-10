@@ -5,85 +5,174 @@
       <h1>Wellcome {{user.first_name + ' ' + user.last_name }} is back home!</h1>
     </div>
     <div class="jumptron">
-
         <form action="" method="post" class="form-signin" novalidate >
             {{ form.hidden_tag()}}
                 <div class="form-group">
-                {{ form.inputTaskDescription.label(class="sr-only") }}
-                {{ form.inputTaskDescription(class="form-control", placeholder="Enter task") }}
-                {% if form.inputTaskDescription.errors %}
-                {% for error in form.inputTaskDescription.errors %}
-                <div class="alert alert-danger">
+                    {{ form.inputProjectName.label(class="sr-only") }}
+                    {{ form.inputProjectName(class="form-control", placeholder="Enter project name") }}
+                    {% if form.inputProjectName.errors %}
+                    {% for error in form.inputProjectName.errors %}
+                    <div class="alert alert-danger">
                     <strong>Error: </strong>[{{ error }}]
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
-                {% endfor %}
-                {% endif %}
+                <div class="form-group">
+                    {{ form.inputProjectDescription.label(class="sr-only") }}
+                    {{ form.inputProjectDescription(class="form-control", placeholder="Enter project description") }}
+                    {% if form.inputProjectDescription.errors %}
+                    {% for error in form.inputProjectDescription.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error: </strong>[{{ error }}]
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
                 </div>
-            <div class="form-group">
-                {{ form.inputPriority(class="custom-select") }}
-            </div>
+                <div class="form-group">
+                    {{ form.inputProjectDeadline.label(class="sr-only") }}
+                    {{ form.inputProjectDeadline(class="form-control", placeholder="Enter project deadline") }}
+                    {% if form.inputProjectDeadline.errors %}
+                    {% for error in form.inputProjectDeadline.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error: </strong>[{{ error }}]
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
             <div class="form-group">
                 {{ form.submit(class="btn btn-lg btn-success btn-block")}}
             </div>
         </form>
+
         <form action="" method="post" class="form-signin" novalidate >
             {{ form.hidden_tag()}}
             <table class="table table-striped table-bordered table-hover">
                 <thead>
-                <tr>Task</tr>
-                </thead>
-                <tbody>
-                {% if user.tasks %}
-                {% for task in user.tasks %}
-                {% if task.status == "running" %}
-                <tr class="{{ task.getColor() }}">
-
-                        <td class="" style="width: 70%">{{ task.description }}</td>
-                        <td>
-                            <input type="submit" name="update{{ task.task_id }}" value="✏" class="btn btn-lg btn-success btn-block">
-                        </td>
-                        <td>
-                            <input type="submit" name="done{{ task.task_id }}" value="✔" class="btn btn-lg btn-success btn-block">
-                        </td>
-                        <td>
-                            <input type="submit" name="move_to_trash{{ task.task_id }}" value="❌" class="btn btn-lg btn-success btn-block">
-                        </td>
-
-
-                </tr>
-                {% endif %}
-                {% if taskid %}
-                    {% if task.task_id == taskid %}
-
-
+                <tr>Projects manager</tr>
+                
                 <tr>
+                    
                     <td>
-                        <div class="form-group">
-                {{ editTaskForm.inputTaskDescription.label(class="sr-only") }}
-                {{ editTaskForm.inputTaskDescription(class="form-control", value=task.description) }}
-                {% if editTaskForm.inputTaskDescription.errors %}
-                {% for error in editTaskForm.inputTaskDescription.errors %}
+                {{ searchForm.inputSearchContent.label(class="sr-only") }}
+                {{ searchForm.inputSearchContent(class="form-control", placeholder="Search ...") }}
+                {% if searchForm.inputSearchContent.errors %}
+                {% for error in searchForm.inputSearchContent.errors %}
                 <div class="alert alert-danger">
                     <strong>Error: </strong>[{{ error }}]
                 </div>
                 {% endfor %}
                 {% endif %}
-                </div>
                     </td>
                     <td>
-                        <div class="form-group">
-                            {{ editTaskForm.inputPriority(class="custom-select") }}
-                        </div>
+                        
+                            {{ searchForm.inputStatus(class="custom-select") }}
+                        
                     </td>
                     <td>
-                        <div class="form-group">
-                            {{ editTaskForm.submitEditTask(class="btn btn-lg btn-success btn-block")}}
-                        </div>
+                        
+                        {{ searchForm.submitSearch(class="btn btn-lg btn-success btn-block") }}
+                    
                     </td>
                 </tr>
-                        {% endif %}
-                {% endif %}
+                <tr>
+                    <td>Project name</td>
+                    <td>Description</td>
+                    <td>Deadline</td>
+                    <td>Status</td>
+                    <td>Editor</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% if user.projects %}
+                {% for project in user.projects %}
+                {% if project.status_id == 1 or project.status_id == 3 %}
+                <tr>
 
+                        <td class="" style="width: 15%">{{ project.name }}</td>
+                        <td class="" style="width: 40%">{{ project.description }}</td>
+                        <td class="" style="width: 15%">{{ project.deadline }}</td>
+                        
+                        {% if project.status_id == 1 %} 
+                        <td class="" style="width: 10%"> running </td>
+                        {% endif %}
+                        {% if project.status_id == 3 %} 
+                        <td class="" style="width: 10%"> finished  </td>
+                        {% endif %}
+                        <td>
+                            <input type="submit" name="update{{ project.project_id }}" value="✏" class="btn btn-lg btn-success btn-block">
+                        </td>
+                        <td>
+                            <input type="submit" name="done{{ project.project_id }}" value="Edit" class="btn btn-lg btn-success btn-block">
+                        </td>
+                        <td>
+                            <input type="submit" name="move_to_trash{{ project.project_id }}" value="Delete" class="btn btn-lg btn-success btn-block">
+                        </td>                        
+                    
+                        
+
+                </tr>
+                
+
+                {% if projectID %}
+                {% if project.project_id == projectID %}
+
+
+            <tr>
+                <td>
+                    <div class="form-group">
+            {{ editProjectForm.inputProjectName.label(class="sr-only") }}
+            {{ editProjectForm.inputProjectName(class="form-control", value=project.name) }}
+            {% if editProjectForm.inputProjectName.errors %}
+            {% for error in editProjectForm.inputProjectName.errors %}
+            <div class="alert alert-danger">
+                <strong>Error: </strong>[{{ error }}]
+            </div>
+            {% endfor %}
+            {% endif %}
+            </div>
+                </td>
+                <td>
+                    <div class="form-group">
+            {{ editProjectForm.inputProjectDescription.label(class="sr-only") }}
+            {{ editProjectForm.inputProjectDescription(class="form-control", value=project.description) }}
+            {% if editProjectForm.inputProjectDescription.errors %}
+            {% for error in editProjectForm.inputProjectDescription.errors %}
+            <div class="alert alert-danger">
+                <strong>Error: </strong>[{{ error }}]
+            </div>
+            {% endfor %}
+            {% endif %}
+            </div>
+                </td>
+                <td>
+                    <div class="form-group">
+            {{ editProjectForm.inputProjectDeadline.label(class="sr-only") }}
+            {{ editProjectForm.inputProjectDeadline(class="form-control", value=project.deadline) }}
+            {% if editProjectForm.inputProjectDeadline.errors %}
+            {% for error in editProjectForm.inputProjectDeadline.errors %}
+            <div class="alert alert-danger">
+                <strong>Error: </strong>[{{ error }}]
+            </div>
+            {% endfor %}
+            {% endif %}
+            </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        {{ editProjectForm.submitEditProject(class="btn btn-lg btn-success btn-block")}}
+                    </div>
+                </td>
+            </tr>
+                    {% endif %}
+            {% endif %}
+
+
+
+
+                {% endif %}                
                 {% endfor %}
                 {% else %}
                 <div class="alert alert-warning text-center">
